@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Link Shopee - Instagram Campaign</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #ffbca7; /* Màu nền hồng nhạt giống ảnh mẫu */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Phần Logo phía trên */
+        .logo-area {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ff5722;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sub-logo {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #d43f11;
+            font-weight: 500;
+            margin-top: 6px;
+            display: inline-block;
+        }
+        
+        /* Card chứa nội dung chính */
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 580px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            padding: 24px;
+        }
+
+        .input-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Ô nhập liệu có nút Paste bên trong */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 60px 14px 16px; /* Chừa khoảng trống bên phải cho nút Paste */
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #eef3f9; /* Màu nền ô nhập nhạt */
+            outline: none;
+            color: #333;
+        }
+        
+        .btn-paste {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #495057;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+
+        .btn-paste:hover {
+            color: #ff5722;
+        }
+        
+        /* Nút Tạo Link Ngay màu cam */
+        .btn-submit {
+            width: 100%;
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #e04818;
+        }
+
+        /* Khối hiển thị kết quả bo viền xám giống ảnh */
+        .result-container {
+            display: none;
+            margin-top: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Hàng chứa các nút chức năng chính */
+        .action-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        /* Nút Mua Ngay màu xanh lá */
+        .btn-mua-ngay {
+            background: #00d27a;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,210,122,0.2);
+        }
+
+        .btn-mua-ngay:hover {
+            background: #00b96b;
+        }
+
+        /* Nút Sao chép màu cam viền đen nhẹ */
+        .btn-copy {
+            background: #ff5722;
+            color: white;
+            border: 1px solid #d43f11;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .btn-copy:hover {
+            background: #e04818;
+        }
+
+        /* Nút chia sẻ lên Facebook */
+        .btn-facebook {
+            width: 100%;
+            background: #3b5998;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-facebook:hover {
+            background: #2d4373;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-area">
+        <div class="logo-text">
+            <i class="fa-brands fa-instagram"></i> Miki Instagram Tool
+        </div>
+        <div class="sub-logo">Kích Hoạt Mã 22%</div>
+    </div>
+
+    <div class="card">
+        <div class="input-title">
+            <i class="fa-solid fa-briefcase"></i> Link sản phẩm Shopee cần kích hoạt mã
+        </div>
+        
+        <div class="input-wrapper">
+            <input type="text" id="shopeeUrlInput" placeholder="https://shopee.vn/...">
+            <button class="btn-paste" onclick="pasteClipboard()" title="Dán nhanh">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+        </div>
+
+        <button class="btn-submit" onclick="generateMikiLink()">
+            <i class="fa-solid fa-bolt"></i> Tạo Link Kích Hoạt Ngay
+        </button>
+
+        <div class="result-container" id="resultContainer">
+            <div class="action-row">
+                <a href="#" id="linkMuaNgay" class="btn-mua-ngay" target="_blank">
+                    <i class="fa-solid fa-cart-shopping"></i> Mua Ngay (Đã áp mã)
+                </a>
+                <button id="btnCopy" class="btn-copy" onclick="copyTargetLink()">
+                    <i class="fa-solid fa-copy"></i> Sao chép
+                </button>
+            </div>
+
+            <button class="btn-facebook" onclick="shareToFacebook()">
+                <i class="fa-brands fa-facebook"></i> Lưu/Chia sẻ lên Facebook
+            </button>
+        </div>
+    </div>
+
+<script>
+    // 🔴 ĐIỀN AFFILIATE ID CỦA BẠN VÀO ĐÂY
+    const MY_AFFILIATE_ID = "17322830423"; 
+    let linkKetQua = "";
+
+    // Hàm tự động paste khi click biểu tượng tệp ở ô nhập
+    async function pasteClipboard() {
+        try {
+            const text = await navigator.clipboard.readText();
+            document.getElementById('shopeeUrlInput').value = text;
+        } catch (err) {
+            alert("Vui lòng cho phép quyền truy cập bộ nhớ tạm hoặc tự dán thủ công nha!");
+        }
+    }
+
+    // Hàm xử lý thuật toán tạo link chứa mã chiến dịch độc quyền Instagram
+    function generateMikiLink() {
+        const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
+        if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
+
+        // 1. Tách lấy phần link gốc trước dấu "?" để loại bỏ các tracking rác của người khác
+        let cleanUrl = inputUrl.split('?')[0];
+
+        // 🔴 2. ĐOẠN TOKEN CHIẾN DỊCH INSTAGRAM (Cập nhật chuỗi token mới tại đây nếu Shopee đổi campaign)
+        const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
+
+        // 3. Ghép chuỗi: Link sản phẩm + ID Affiliate của bạn + Cấu trúc ghi nhận nguồn ẩn danh Instagram
+        linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
+
+        // Đổ link vào nút Mua ngay và hiển thị khối kết quả bên dưới
+        document.getElementById('linkMuaNgay').href = linkKetQua;
+        document.getElementById('resultContainer').style.display = 'block';
+    }
+
+    // Hàm tự động sao chép link tiếp thị
+    function copyTargetLink() {
+        if(!linkKetQua) return;
+        navigator.clipboard.writeText(linkKetQua).then(() => {
+            const btnCopy = document.getElementById('btnCopy');
+            btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> Đã sao chép`;
+            btnCopy.style.background = "#28a745";
+            btnCopy.style.borderColor = "#1e7e34";
+
+            setTimeout(() => {
+                btnCopy.innerHTML = `<i class="fa-solid fa-copy"></i> Sao chép`;
+                btnCopy.style.background = "#ff5722";
+                btnCopy.style.borderColor = "#d43f11";
+            }, 2000);
+        });
+    }
+
+    // Hàm chia sẻ nhanh lên Facebook
+    function shareToFacebook() {
+        if(!linkKetQua) return;
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
+    }
+</script>
+</body>
+</html>
