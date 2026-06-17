@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo Link Shopee- Ngọc Long</title>
+    <title>Tạo Link Shopee - Ngọc Long Multi-Campaign</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -62,6 +62,56 @@
             padding: 24px;
         }
 
+        /* THANH CHỌN CHIẾN DỊCH (TABS) */
+        .campaign-tabs {
+            display: flex;
+            background: #f1f3f5;
+            padding: 4px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            gap: 4px;
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-item:hover {
+            background: rgba(255, 87, 34, 0.1);
+            color: #ff5722;
+        }
+
+        .tab-item.active {
+            background: #ff5722;
+            color: white;
+            box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
+        }
+
+        /* Đổi màu icon FontAwesome khi tab active để dễ nhìn trên nền cam */
+        .tab-item.active i {
+            background: white !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: #ff5722 !important;
+            color: #ff5722 !important;
+        }
+
+        /* CSS riêng để xử lý đổi màu Logo Shopee dạng SVG khi active */
+        .tab-item.active .shopee-svg {
+            fill: white !important;
+        }
+
         .input-title {
             font-size: 15px;
             font-weight: 500;
@@ -82,11 +132,11 @@
 
         input {
             width: 100%;
-            padding: 14px 60px 14px 16px; /* Chừa khoảng trống bên phải cho nút Paste */
+            padding: 14px 60px 14px 16px;
             border: 1px solid #dee2e6;
             border-radius: 12px;
             font-size: 15px;
-            background: #eef3f9; /* Màu nền ô nhập nhạt */
+            background: #eef3f9;
             outline: none;
             color: #333;
         }
@@ -124,10 +174,30 @@
             justify-content: center;
             gap: 8px;
             transition: background 0.2s;
+            margin-bottom: 16px;
         }
 
         .btn-submit:hover {
             background: #e04818;
+        }
+
+        /* Vùng hiển thị ảnh Voucher trực quan */
+        .voucher-preview {
+            display: none; /* Mặc định ẩn, chỉ hiện ở tab IG */
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px dashed #ff5722;
+            padding: 4px;
+            background: #fff5f2;
+        }
+
+        .voucher-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 6px;
         }
 
         /* Khối hiển thị kết quả bo viền xám giống ảnh */
@@ -217,14 +287,27 @@
 
     <div class="logo-area">
         <div class="logo-text">
-            <i class="fa-solid fa-link"></i> Tạo Link Shopee
+            <i class="fa-solid fa-link"></i> Tạo Link Tổng Hợp
         </div>
-        <div class="sub-logo">Ngọc Long</div>
+        <div class="sub-logo">Ngọc Long Miki</div>
     </div>
 
     <div class="card">
+        <div class="campaign-tabs">
+            <div class="tab-item active" onclick="switchCampaign('pure')" id="tab-pure">
+                <svg class="shopee-svg" viewBox="0 0 24 24" width="16" height="16" style="fill: #EE4D2D; transition: fill 0.2s;"><path d="M22.5 10c-.1-.6-.5-1.1-1.1-1.4l-3.4-1.3c-.3-.1-.6-.2-1-.2H7c-.4 0-.7.1-1 .2L2.6 8.6c-.6.3-1 .8-1.1 1.4L1 14.5c-.1 1.6.8 3.1 2.3 3.7l7.5 3.3c.7.3 1.6.3 2.3 0l7.5-3.3c1.5-.6 2.4-2.1 2.3-3.7L22.5 10zM12 18.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"/></svg>
+                AFF Đơn Thuần
+            </div>
+            <div class="tab-item" onclick="switchCampaign('fb')" id="tab-fb">
+                <i class="fa-brands fa-facebook" style="color: #1877F2;"></i> Mã Facebook
+            </div>
+            <div class="tab-item" onclick="switchCampaign('ig')" id="tab-ig">
+                <i class="fa-brands fa-instagram" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Mã Instagram
+            </div>
+        </div>
+
         <div class="input-title">
-            <i class="fa-solid fa-briefcase"></i> Link sản phẩm Shopee
+            <i class="fa-solid fa-briefcase"></i> <span id="inputLabel">Link sản phẩm Shopee làm Affiliate đơn thuần</span>
         </div>
         
         <div class="input-wrapper">
@@ -237,6 +320,11 @@
         <button class="btn-submit" onclick="generateMikiLink()">
             <i class="fa-solid fa-pencil"></i> Tạo Link Ngay
         </button>
+
+        <!-- KHỐI HIỂN THỊ HÌNH ẢNH VOUCHER THỰC TẾ -->
+        <div class="voucher-preview" id="voucherImageBlock">
+            <img src="instagram.jpg" alt="Mã giảm giá Instagram">
+        </div>
 
         <div class="result-container" id="resultContainer">
             <div class="action-row">
@@ -255,11 +343,36 @@
     </div>
 
 <script>
-    // 🔴 ĐIỀN AFFILIATE ID CỦA BẠN VÀO ĐÂY
     const MY_AFFILIATE_ID = "17322830423"; 
+    
+    let currentCampaign = "pure";
     let linkKetQua = "";
 
-    // Hàm tự động paste khi click biểu tượng tệp ở ô nhập
+    function switchCampaign(type) {
+        currentCampaign = type;
+        
+        document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(`tab-${type}`).classList.add('active');
+        
+        const label = document.getElementById('inputLabel');
+        const voucherBlock = document.getElementById('voucherImageBlock');
+
+        if(type === 'pure') {
+            label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
+            voucherBlock.style.display = 'none';
+        }
+        if(type === 'fb') {
+            label.innerText = "Link sản phẩm Shopee cần áp mã FB";
+            voucherBlock.style.display = 'none';
+        }
+        if(type === 'ig') {
+            label.innerText = "Link sản phẩm Shopee cần áp mã IG";
+            voucherBlock.style.display = 'block'; // Hiện ảnh voucher khi chọn tab IG
+        }
+
+        document.getElementById('resultContainer').style.display = 'none';
+    }
+
     async function pasteClipboard() {
         try {
             const text = await navigator.clipboard.readText();
@@ -269,23 +382,29 @@
         }
     }
 
-    // Hàm xử lý thuật toán ghép chữ theo ảnh Bước 2,3,4 của Shopee
     function generateMikiLink() {
         const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
-        // Mã hóa link
-        const encoded = encodeURIComponent(inputUrl);
+        let cleanUrl = inputUrl.split('?')[0];
 
-        // Ghép chuỗi tạo link điều hướng
-        linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
+        if (currentCampaign === 'pure') {
+            const encoded = encodeURIComponent(inputUrl);
+            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
+        } 
+        else if (currentCampaign === 'fb') {
+            const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
+            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
+        }
+        else if (currentCampaign === 'ig') {
+            const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
+            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
+        } 
 
-        // Đổ link vào nút Mua ngay và hiển thị khối kết quả bên dưới
         document.getElementById('linkMuaNgay').href = linkKetQua;
         document.getElementById('resultContainer').style.display = 'block';
     }
 
-    // Hàm tự động sao chép link tiếp thị
     function copyTargetLink() {
         if(!linkKetQua) return;
         navigator.clipboard.writeText(linkKetQua).then(() => {
@@ -302,7 +421,6 @@
         });
     }
 
-    // Hàm chia sẻ nhanh lên Facebook
     function shareToFacebook() {
         if(!linkKetQua) return;
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
