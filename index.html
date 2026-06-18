@@ -463,21 +463,34 @@
     }
 
     function generateMikiLink() {
-        const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
-        if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
+    const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
+    if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
-        let cleanUrl = inputUrl.split('?')[0];
-        const voucherBlock = document.getElementById('voucherImageBlock');
-        const imgElement = document.getElementById('voucherImgElement');
+    // 1. Chuẩn hóa link sản phẩm (Cắt bỏ hết phần rác ?credential_token... cũ nếu có)
+    let cleanUrl = inputUrl;
+    if(inputUrl.includes('?')) {
+        cleanUrl = inputUrl.split('?')[0];
+    }
 
-        let webLinkWithToken = "";
+    // 2. Điền tên miền thật của anh vào đây (Ví dụ: https://tenmien-cua-anh.com)
+    const domainCuaAnh = "https://tenmien-cua-anh.com"; 
+    
+    // 3. Tạo ra Link 1 dẫn thẳng về file go.php trên server của anh
+    linkKetQua = `${domainCuaAnh}/go.php?url=${encodeURIComponent(cleanUrl)}`;
 
-        if (currentCampaign === 'pure') {
-            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(inputUrl)}&affiliate_id=${MY_AFFILIATE_ID}`;
-            
-            imgElement.src = "voucher.jpg";
-            voucherBlock.style.display = 'block';
-        } 
+    // 4. Hiển thị kết quả ra màn hình cho anh lấy link đi rải
+    document.getElementById('linkMuaNgay').href = linkKetQua;
+    
+    // Đoạn hiển thị ảnh voucher giữ nguyên của anh
+    const voucherBlock = document.getElementById('voucherImageBlock');
+    const imgElement = document.getElementById('voucherImgElement');
+    if (currentCampaign === 'fb') imgElement.src = "facebook.jpg";
+    else if (currentCampaign === 'ig') imgElement.src = "image_8884c1.jpg";
+    else imgElement.src = "voucher.jpg";
+    
+    voucherBlock.style.display = 'block';
+    document.getElementById('resultContainer').style.display = 'block';
+}
         // 👇 VỊ TRÍ SỬA TOKEN FACEBOOK CHO TỪNG THỜI ĐIỂM 👇
         else if (currentCampaign === 'fb') {
             const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
