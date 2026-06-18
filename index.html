@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo Link Shopee - Ngọc Long Affiliate</title>
-    
-    <!-- 🆕 ĐÂY LÀ DÒNG THAY ĐỔI ICON QUẢ CẦU TRÊN TAB TRÌNH DUYỆT -->
-    <!-- Anh nhớ để file ảnh favicon.ico hoặc một file ảnh logo tròn nhỏ tên là favicon.png ở chung thư mục nhé -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -178,6 +173,7 @@
             background: #e04818;
         }
 
+        /* KHỐI HƯỚNG DẪN HIỂN THỊ CỐ ĐỊNH */
         .instruction-box {
             display: block; 
             background: #f0f4f9;
@@ -259,15 +255,16 @@
             background: #1877f2;
         }
 
-        /* Khung chứa ảnh voucher mặc định hiển thị luôn từ đầu */
+        /* Vùng chứa ảnh voucher (Sẽ tự hiển thị loại ảnh phù hợp với tab đang chọn) */
         .voucher-preview {
-            display: block;
+            display: none;
             width: 100%;
             border-radius: 8px;
             overflow: hidden;
             background: #ffffff;
             border: 1px solid #e1e4e8;
             margin-top: 12px;
+            animation: fadeIn 0.3s ease;
         }
 
         .voucher-preview img {
@@ -276,6 +273,7 @@
             display: block;
         }
 
+        /* Khối hiển thị kết quả tạo link */
         .result-container {
             display: none;
             margin-top: 20px;
@@ -414,7 +412,7 @@
             </div>
 
             <div class="voucher-preview" id="voucherImageBlock">
-                <img id="voucherImgElement" src="voucher.jpg" alt="Voucher">
+                <img id="voucherImgElement" src="" alt="Voucher Campaign">
             </div>
         </div>
 
@@ -447,21 +445,12 @@
         document.getElementById(`tab-${type}`).classList.add('active');
         
         const label = document.getElementById('inputLabel');
-        const imgElement = document.getElementById('voucherImgElement');
+        if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
+        if(type === 'fb') label.innerText = "Link sản phẩm Shopee cần áp mã FB";
+        if(type === 'ig') label.innerText = "Link sản phẩm Shopee cần áp mã IG";
 
-        if(type === 'pure') {
-            label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
-            imgElement.src = "voucher.jpg";
-        }
-        if(type === 'fb') {
-            label.innerText = "Link sản phẩm Shopee cần áp mã FB";
-            imgElement.src = "facebook.jpg";
-        }
-        if(type === 'ig') {
-            label.innerText = "Link sản phẩm Shopee cần áp mã IG";
-            imgElement.src = "image_8884c1.jpg";
-        }
-
+        // Ẩn ảnh và kết quả khi người dùng chuyển qua lại giữa các tab
+        document.getElementById('voucherImageBlock').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'none';
     }
 
@@ -479,18 +468,32 @@
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
         let cleanUrl = inputUrl.split('?')[0];
+        const voucherBlock = document.getElementById('voucherImageBlock');
+        const imgElement = document.getElementById('voucherImgElement');
 
         if (currentCampaign === 'pure') {
             const encoded = encodeURIComponent(inputUrl);
             linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
+            
+            // Đổi nguồn ảnh thành voucher.jpg và hiển thị cho tab Shopee
+            imgElement.src = "voucher.jpg";
+            voucherBlock.style.display = 'block';
         } 
         else if (currentCampaign === 'fb') {
             const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
+            
+            // Đổi nguồn ảnh thành facebook.jpg và hiển thị cho tab Facebook
+            imgElement.src = "facebook.jpg";
+            voucherBlock.style.display = 'block';
         }
         else if (currentCampaign === 'ig') {
             const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
+            
+            // Đổi nguồn ảnh thành file image_8884c1.jpg nguyên bản của tab Instagram
+            imgElement.src = "image_8884c1.jpg";
+            voucherBlock.style.display = 'block'; 
         } 
 
         document.getElementById('linkMuaNgay').href = linkKetQua;
@@ -515,7 +518,7 @@
 
     function shareToFacebook() {
         if(!linkKetQua) return;
-        window.open(`https://www.facebook.com/sharon/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
     }
 </script>
 </body>
