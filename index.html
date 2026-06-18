@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo Link Shopee - Ngọc Long Affiliate</title>
     
-    <!-- Thay đổi icon quả cầu trên tab trình duyệt -->
     <link rel="icon" type="image/png" href="favicon.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -380,7 +379,7 @@
         </div>
         
         <div class="input-wrapper">
-            <input type="text" id="shopeeUrlInput" placeholder="https://shopee.vn/...">
+            <input type="text" id="shopeeUrlInput" placeholder="https://shopee.vn/product/shop_id/item_id hoặc link rút gọn...">
             <button class="btn-paste" onclick="pasteClipboard()" title="Dán nhanh">
                 <i class="fa-solid fa-copy"></i>
             </button>
@@ -418,7 +417,6 @@
 
         <div class="result-container" id="resultContainer">
             <div class="action-row">
-                <!-- 🆕 Nút mua ngay giờ sẽ kích hoạt hàm mở App trực tiếp bằng JavaScript thay vì dùng link tĩnh href -->
                 <a href="#" id="linkMuaNgay" class="btn-mua-ngay" onclick="openShopeeApp(event)">
                     <i class="fa-solid fa-cart-shopping"></i> Mua Ngay
                 </a>
@@ -438,11 +436,10 @@
     
     let currentCampaign = "pure";
     let linkKetQua = "";
-    let appDeeplink = ""; // 🆕 Biến lưu trữ link cấu trúc mở app
+    let appDeeplink = ""; 
 
     function switchCampaign(type) {
         currentCampaign = type;
-        
         document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
         document.getElementById(`tab-${type}`).classList.add('active');
         
@@ -474,43 +471,81 @@
         }
     }
 
+    // 🆕 Hàm trích xuất thông tin Shop ID và Item ID từ chuỗi URL bất kỳ của Shopee
+    function extractShopeeIds(url) {
+        let shopId = null;
+        let itemId = null;
+        
+        // Định dạng 1: shopee.vn/product/123456/7891011
+        let productRegex = /\/product\/(\d+)\/(\d+)/;
+        let match = url.match(productRegex);
+        if (match) {
+            shopId = match[1];
+            itemId = match[2];
+        } else {
+            // Định dạng 2: shopee.vn/tên-sản-phẩm-i.123456.7891011
+            let iRegex = /-i\.(\d+)\.(\d+)/;
+            let matchI = url.match(iRegex);
+            if (matchI) {
+                shopId = matchI[1];
+                itemId = matchI[2];
+            }
+        }
+        return { shopId, itemId };
+    }
+
     function generateMikiLink() {
         const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
         let cleanUrl = inputUrl.split('?')[0];
+        let ids = extractShopeeIds(inputUrl);
 
         if (currentCampaign === 'pure') {
             const encoded = encodeURIComponent(inputUrl);
             linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
-            // Tạo link gọi app cho dạng link chuyển hướng s.shopee.vn
-            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            
+            // 🆕 Tối ưu Deeplink thuần: Nếu tìm thấy ID sản phẩm, gọi trực tiếp trang sản phẩm gốc
+            if(ids.shopId && ids.itemId) {
+                appDeeplink = `shopeevn://product?shopId=${ids.shopId}&itemId=${ids.itemId}&utm_source=an_${MY_AFFILIATE_ID}`;
+            } else {
+                appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            }
         } 
         else if (currentCampaign === 'fb') {
             const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
-            // Tạo link gọi app cho link shopee.vn kèm token
-            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            
+            // 🆕 Tối ưu Deeplink Facebook mã giảm giá: Ép App mở trang sản phẩm và mang theo mã token giảm giá trực tiếp
+            if(ids.shopId && ids.itemId) {
+                appDeeplink = `shopeevn://product?shopId=${ids.shopId}&itemId=${ids.itemId}&utm_source=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_content=product----${facebookToken}`;
+            } else {
+                appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            }
         }
         else if (currentCampaign === 'ig') {
             const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
-            // Tạo link gọi app cho link shopee.vn kèm token
-            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            
+            // 🆕 Tối ưu Deeplink Instagram mã giảm giá: Ép App mở trang sản phẩm và mang theo mã token giảm giá trực tiếp
+            if(ids.shopId && ids.itemId) {
+                appDeeplink = `shopeevn://product?shopId=${ids.shopId}&itemId=${ids.itemId}&utm_source=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_content=product----${instagramToken}`;
+            } else {
+                appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
+            }
         } 
 
         document.getElementById('resultContainer').style.display = 'block';
     }
 
-    // 🆕 Hàm kích hoạt bắt buộc mở app Shopee khi nhấn nút
     function openShopeeApp(event) {
-        event.preventDefault(); // Ngăn trình duyệt mở thẻ web mới mặc định
+        event.preventDefault(); 
         if (!appDeeplink) return;
 
-        // Thử mở ứng dụng bằng giao thức deeplink trực tiếp
+        // Bắn lệnh Deeplink chuẩn đã cấu trúc
         window.location.href = appDeeplink;
 
-        // Cơ chế dự phòng (Dành cho một số dòng máy chặn gắt): Nếu sau 1.5 giây không mở được app thì mở bản Web
+        // Cơ chế dự phòng: Nếu thiết bị lỗi hoặc dùng link rút gọn s.shopee không bóc được ID, tự động bung link Web sau 1.5 giây
         setTimeout(() => {
             window.open(linkKetQua, '_blank');
         }, 1500);
