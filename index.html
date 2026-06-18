@@ -173,7 +173,6 @@
             background: #e04818;
         }
 
-        /* KHỐI HƯỚNG DẪN HIỂN THỊ CỐ ĐỊNH */
         .instruction-box {
             display: block; 
             background: #f0f4f9;
@@ -255,7 +254,6 @@
             background: #1877f2;
         }
 
-        /* Vùng chứa ảnh voucher (Sẽ tự hiển thị loại ảnh phù hợp với tab đang chọn) */
         .voucher-preview {
             display: none;
             width: 100%;
@@ -273,7 +271,6 @@
             display: block;
         }
 
-        /* Khối hiển thị kết quả tạo link */
         .result-container {
             display: none;
             margin-top: 20px;
@@ -463,57 +460,39 @@
     }
 
     function generateMikiLink() {
-    const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
-    if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
+        const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
+        if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
-    // 1. Chuẩn hóa link sản phẩm (Cắt bỏ hết phần rác ?credential_token... cũ nếu có)
-    let cleanUrl = inputUrl;
-    if(inputUrl.includes('?')) {
-        cleanUrl = inputUrl.split('?')[0];
-    }
-
-    // 2. Điền tên miền thật của anh vào đây (Ví dụ: https://tenmien-cua-anh.com)
-    const domainCuaAnh = "https://tenmien-cua-anh.com"; 
-    
-    // 3. Tạo ra Link 1 dẫn thẳng về file go.php trên server của anh
-    linkKetQua = `${domainCuaAnh}/go.php?url=${encodeURIComponent(cleanUrl)}`;
-
-    // 4. Hiển thị kết quả ra màn hình cho anh lấy link đi rải
-    document.getElementById('linkMuaNgay').href = linkKetQua;
-    
-    // Đoạn hiển thị ảnh voucher giữ nguyên của anh
-    const voucherBlock = document.getElementById('voucherImageBlock');
-    const imgElement = document.getElementById('voucherImgElement');
-    if (currentCampaign === 'fb') imgElement.src = "facebook.jpg";
-    else if (currentCampaign === 'ig') imgElement.src = "image_8884c1.jpg";
-    else imgElement.src = "voucher.jpg";
-    
-    voucherBlock.style.display = 'block';
-    document.getElementById('resultContainer').style.display = 'block';
-}
-        // 👇 VỊ TRÍ SỬA TOKEN FACEBOOK CHO TỪNG THỜI ĐIỂM 👇
-        else if (currentCampaign === 'fb') {
-            const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
-            webLinkWithToken = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
-            
-            // 👉 BẮT BUỘC: Đóng gói link chứa token qua cổng Affiliate ẩn s.shopee.vn để ép kích hoạt ví voucher trên app
-            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(webLinkWithToken)}&affiliate_id=${MY_AFFILIATE_ID}`;
-            
-            imgElement.src = "facebook.jpg";
-            voucherBlock.style.display = 'block';
+        // 1. Chỉ lấy đường dẫn sản phẩm sạch (Loại bỏ các token/tham số cũ đằng sau dấu hỏi)
+        let cleanUrl = inputUrl;
+        if(inputUrl.includes('?')) {
+            cleanUrl = inputUrl.split('?')[0];
         }
-        // 👇 VỊ TRÍ SỬA TOKEN INSTAGRAM CHO TỪNG THỜI ĐIỂM 👇
+
+        const voucherBlock = document.getElementById('voucherImageBlock');
+        const imgElement = document.getElementById('voucherImgElement');
+
+        // 2. Tự động lấy tên miền hiện tại của anh (Anh up lên web nào nó tự nhận web đó, không cần sửa tay nữa)
+        const currentDomain = window.location.origin;
+
+        // 3. Xử lý tạo Link 1 dẫn về file go.php trên Server của anh
+        if (currentCampaign === 'pure') {
+            // Tab Shopee thường: chuyển sang file go.php với tham số nền tảng tương ứng
+            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=pure`;
+            imgElement.src = "voucher.jpg";
+        } 
+        else if (currentCampaign === 'fb') {
+            // Tab Facebook: chuyển sang file go.php báo loại nền tảng facebook
+            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=facebook`;
+            imgElement.src = "facebook.jpg";
+        }
         else if (currentCampaign === 'ig') {
-            const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
-            webLinkWithToken = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
-            
-            // 👉 BẮT BUỘC: Đóng gói link chứa token qua cổng Affiliate ẩn s.shopee.vn để ép kích hoạt ví voucher trên app
-            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(webLinkWithToken)}&affiliate_id=${MY_AFFILIATE_ID}`;
-            
-            imgElement.src = "instagram.png";
-            voucherBlock.style.display = 'block'; 
+            // Tab Instagram: chuyển sang file go.php báo loại nền tảng instagram
+            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=instagram`;
+            imgElement.src = "image_8884c1.jpg";
         } 
 
+        voucherBlock.style.display = 'block';
         document.getElementById('linkMuaNgay').href = linkKetQua;
         document.getElementById('resultContainer').style.display = 'block';
     }
