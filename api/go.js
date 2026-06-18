@@ -6,6 +6,7 @@ export default function handler(req, res) {
         return res.status(400).send("Vui lòng nhập link sản phẩm Shopee!");
     }
 
+    // Làm sạch link sản phẩm
     if (url_san_pham.includes('?')) {
         url_san_pham = url_san_pham.split('?')[0];
     }
@@ -13,50 +14,20 @@ export default function handler(req, res) {
     // 🔥 ID AFFILIATE CỦA ANH
     const my_affiliate_id = "17322830423"; 
 
-    // Ráp link cổng chuyển hướng của Shopee
+    // Cấu trúc link cổng redir của Shopee mà anh bắt được bằng F12
     const link_chuyen_huong_shopee = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(url_san_pham)}&affiliate_id=${my_affiliate_id}&sub_id=product----`;
 
-    // Nếu là link thường, cho chuyển hướng thẳng
+    // Nếu khách chọn link thường (pure), cho nhảy thẳng không cần giả lập
     if (aff_type !== 'instagram') {
         res.writeHead(302, { Location: link_chuyen_huong_shopee });
         return res.end();
     }
 
-    // 🔥 NẾU LÀ LINK INSTAGRAM: Trả về trang HTML mồi để ÉP TRÌNH DUYỆT ghi đè Referer thành Instagram
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.status(200).send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <title>Đang tự động áp mã giảm giá...</title>
-            <script type="text/shopee-short-url-checked">1</script>
-            <meta name="shopee:version" content="sw-WEBFE-MKP-2026.06.v2-1-1">
-        </head>
-        <body>
-            <div style="text-align: center; margin-top: 50px; font-family: sans-serif; color: #666;">
-                <h3>Đang tự động áp mã giảm giá độc quyền và mở App Shopee...</h3>
-                <p>Vui lòng chờ trong giây lát.</p>
-            </div>
+    // 🔥 NẾU LÀ LINK INSTAGRAM: Bọc qua cổng chuyển hướng của Instagram để tạo Referer xịn
+    // Khi chạy qua đây, Shopee sẽ quét thấy Referer từ Instagram và TỰ GẮN TOKEN cho anh
+    const link_boc_qua_instagram = `https://l.instagram.com/?u=${encodeURIComponent(link_chuyen_huong_shopee)}`;
 
-            <script>
-                // MẸO CỐT LÕI: Ép trình duyệt khi chuyển trang phải khai báo nguồn gốc từ Instagram
-                Object.defineProperty(document, 'referrer', {
-                    get: function() { return 'https://l.instagram.com/'; }
-                });
-
-                // Tạo một thẻ chuyển hướng ẩn dưới dạng click để giữ thuộc tính Referer giả lập
-                var meta = document.createElement('meta');
-                meta.name = "referrer";
-                meta.content = "unsafe-url"; // Cho phép truyền toàn bộ URL referer đi
-                document.getElementsByTagName('head')[0].appendChild(meta);
-
-                setTimeout(function() {
-                    // Bắn trình duyệt sang Shopee kèm theo Referer Instagram đã gài sẵn
-                    window.location.replace("${link_chuyen_huong_shopee}");
-                }, 50);
-            </script>
-        </body>
-        </html>
-    `);
+    // Trả về lệnh chuyển hướng 302 gọi qua trạm Instagram
+    res.writeHead(302, { Location: link_boc_qua_instagram });
+    return res.end();
 }
