@@ -449,7 +449,6 @@
         if(type === 'fb') label.innerText = "Link sản phẩm Shopee cần áp mã FB";
         if(type === 'ig') label.innerText = "Link sản phẩm Shopee cần áp mã IG";
 
-        // Ẩn ảnh và kết quả khi người dùng chuyển qua lại giữa các tab
         document.getElementById('voucherImageBlock').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'none';
     }
@@ -471,27 +470,33 @@
         const voucherBlock = document.getElementById('voucherImageBlock');
         const imgElement = document.getElementById('voucherImgElement');
 
+        let webLinkWithToken = "";
+
         if (currentCampaign === 'pure') {
-            const encoded = encodeURIComponent(inputUrl);
-            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
+            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(inputUrl)}&affiliate_id=${MY_AFFILIATE_ID}`;
             
-            // Đổi nguồn ảnh thành voucher.jpg và hiển thị cho tab Shopee
             imgElement.src = "voucher.jpg";
             voucherBlock.style.display = 'block';
         } 
+        // 👇 VỊ TRÍ SỬA TOKEN FACEBOOK CHO TỪNG THỜI ĐIỂM 👇
         else if (currentCampaign === 'fb') {
             const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
-            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
+            webLinkWithToken = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
             
-            // Đổi nguồn ảnh thành facebook.jpg và hiển thị cho tab Facebook
+            // 👉 BẮT BUỘC: Đóng gói link chứa token qua cổng Affiliate ẩn s.shopee.vn để ép kích hoạt ví voucher trên app
+            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(webLinkWithToken)}&affiliate_id=${MY_AFFILIATE_ID}`;
+            
             imgElement.src = "facebook.jpg";
             voucherBlock.style.display = 'block';
         }
+        // 👇 VỊ TRÍ SỬA TOKEN INSTAGRAM CHO TỪNG THỜI ĐIỂM 👇
         else if (currentCampaign === 'ig') {
-            const instagramToken = "&credential_token=8wEwiDL7YDom7sVhZWeSdetQUwvHSbtizRwzndFrSA&uls_trackid=55u0jsif01d3";
-            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
+            const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
+            webLinkWithToken = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
             
-            // Đổi nguồn ảnh thành file image_8884c1.jpg nguyên bản của tab Instagram
+            // 👉 BẮT BUỘC: Đóng gói link chứa token qua cổng Affiliate ẩn s.shopee.vn để ép kích hoạt ví voucher trên app
+            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(webLinkWithToken)}&affiliate_id=${MY_AFFILIATE_ID}`;
+            
             imgElement.src = "image_8884c1.jpg";
             voucherBlock.style.display = 'block'; 
         } 
