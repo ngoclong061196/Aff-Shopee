@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/go.php",
+      "destination": "/api/go.js"
+    }
+  ]
+}
