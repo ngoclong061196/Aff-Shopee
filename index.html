@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo Link Shopee - Ngọc Long Affiliate</title>
+    
+    <!-- Thay đổi icon quả cầu trên tab trình duyệt -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -173,7 +177,6 @@
             background: #e04818;
         }
 
-        /* KHỐI HƯỚNG DẪN HIỂN THỊ CỐ ĐỊNH */
         .instruction-box {
             display: block; 
             background: #f0f4f9;
@@ -255,16 +258,14 @@
             background: #1877f2;
         }
 
-        /* Vùng chứa ảnh voucher (Sẽ tự hiển thị loại ảnh phù hợp với tab đang chọn) */
         .voucher-preview {
-            display: none;
+            display: block;
             width: 100%;
             border-radius: 8px;
             overflow: hidden;
             background: #ffffff;
             border: 1px solid #e1e4e8;
             margin-top: 12px;
-            animation: fadeIn 0.3s ease;
         }
 
         .voucher-preview img {
@@ -273,7 +274,6 @@
             display: block;
         }
 
-        /* Khối hiển thị kết quả tạo link */
         .result-container {
             display: none;
             margin-top: 20px;
@@ -412,13 +412,14 @@
             </div>
 
             <div class="voucher-preview" id="voucherImageBlock">
-                <img id="voucherImgElement" src="" alt="Voucher Campaign">
+                <img id="voucherImgElement" src="voucher.jpg" alt="Voucher">
             </div>
         </div>
 
         <div class="result-container" id="resultContainer">
             <div class="action-row">
-                <a href="#" id="linkMuaNgay" class="btn-mua-ngay" target="_blank">
+                <!-- 🆕 Nút mua ngay giờ sẽ kích hoạt hàm mở App trực tiếp bằng JavaScript thay vì dùng link tĩnh href -->
+                <a href="#" id="linkMuaNgay" class="btn-mua-ngay" onclick="openShopeeApp(event)">
                     <i class="fa-solid fa-cart-shopping"></i> Mua Ngay
                 </a>
                 <button id="btnCopy" class="btn-copy" onclick="copyTargetLink()">
@@ -437,6 +438,7 @@
     
     let currentCampaign = "pure";
     let linkKetQua = "";
+    let appDeeplink = ""; // 🆕 Biến lưu trữ link cấu trúc mở app
 
     function switchCampaign(type) {
         currentCampaign = type;
@@ -445,12 +447,21 @@
         document.getElementById(`tab-${type}`).classList.add('active');
         
         const label = document.getElementById('inputLabel');
-        if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
-        if(type === 'fb') label.innerText = "Link sản phẩm Shopee cần áp mã FB";
-        if(type === 'ig') label.innerText = "Link sản phẩm Shopee cần áp mã IG";
+        const imgElement = document.getElementById('voucherImgElement');
 
-        // Ẩn ảnh và kết quả khi người dùng chuyển qua lại giữa các tab
-        document.getElementById('voucherImageBlock').style.display = 'none';
+        if(type === 'pure') {
+            label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
+            imgElement.src = "voucher.jpg";
+        }
+        if(type === 'fb') {
+            label.innerText = "Link sản phẩm Shopee cần áp mã FB";
+            imgElement.src = "facebook.jpg";
+        }
+        if(type === 'ig') {
+            label.innerText = "Link sản phẩm Shopee cần áp mã IG";
+            imgElement.src = "image_8884c1.jpg";
+        }
+
         document.getElementById('resultContainer').style.display = 'none';
     }
 
@@ -468,36 +479,41 @@
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
         let cleanUrl = inputUrl.split('?')[0];
-        const voucherBlock = document.getElementById('voucherImageBlock');
-        const imgElement = document.getElementById('voucherImgElement');
 
         if (currentCampaign === 'pure') {
             const encoded = encodeURIComponent(inputUrl);
             linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
-            
-            // Đổi nguồn ảnh thành voucher.jpg và hiển thị cho tab Shopee
-            imgElement.src = "voucher.jpg";
-            voucherBlock.style.display = 'block';
+            // Tạo link gọi app cho dạng link chuyển hướng s.shopee.vn
+            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
         } 
         else if (currentCampaign === 'fb') {
             const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
-            
-            // Đổi nguồn ảnh thành facebook.jpg và hiển thị cho tab Facebook
-            imgElement.src = "facebook.jpg";
-            voucherBlock.style.display = 'block';
+            // Tạo link gọi app cho link shopee.vn kèm token
+            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
         }
         else if (currentCampaign === 'ig') {
             const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
             linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
-            
-            // Đổi nguồn ảnh thành file image_8884c1.jpg nguyên bản của tab Instagram
-            imgElement.src = "image_8884c1.jpg";
-            voucherBlock.style.display = 'block'; 
+            // Tạo link gọi app cho link shopee.vn kèm token
+            appDeeplink = `shopeevn://webview?url=${encodeURIComponent(linkKetQua)}`;
         } 
 
-        document.getElementById('linkMuaNgay').href = linkKetQua;
         document.getElementById('resultContainer').style.display = 'block';
+    }
+
+    // 🆕 Hàm kích hoạt bắt buộc mở app Shopee khi nhấn nút
+    function openShopeeApp(event) {
+        event.preventDefault(); // Ngăn trình duyệt mở thẻ web mới mặc định
+        if (!appDeeplink) return;
+
+        // Thử mở ứng dụng bằng giao thức deeplink trực tiếp
+        window.location.href = appDeeplink;
+
+        // Cơ chế dự phòng (Dành cho một số dòng máy chặn gắt): Nếu sau 1.5 giây không mở được app thì mở bản Web
+        setTimeout(() => {
+            window.open(linkKetQua, '_blank');
+        }, 1500);
     }
 
     function copyTargetLink() {
