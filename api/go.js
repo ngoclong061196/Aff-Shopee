@@ -1,7 +1,7 @@
 export default function handler(req, res) {
     let url_san_pham = req.query.url || '';
-    
-    // Nếu không có link sản phẩm, báo lỗi luôn
+    const my_affiliate_id = req.query.aff_id || "17322830423"; 
+
     if (!url_san_pham) {
         return res.status(400).send("Vui lòng nhập link sản phẩm Shopee!");
     }
@@ -11,14 +11,10 @@ export default function handler(req, res) {
         url_san_pham = url_san_pham.split('?')[0];
     }
 
-    // 🔥 ID AFFILIATE VIP CỦA ANH (ĐÃ ĐƯỢC WHITELIST INSTAGRAM)
-    const my_affiliate_id = "17322830423"; 
-
-    // Ráp thành link cổng an_redir chuẩn của Shopee y hệt ảnh F12 của ông Hùng
+    // Ráp thành link cổng an_redir chuẩn của Shopee để tự gắn Token
     const link_chuyen_huong_shopee = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(url_san_pham)}&affiliate_id=${my_affiliate_id}&sub_id=product----`;
 
-    // 🔥 MẸO CHỐT HẠ: Trả về phản hồi 302 thuần túy từ Server, không kèm HTML, không kèm JS
-    // Trình duyệt sẽ nhận lệnh và văng sang Shopee với header sạch, kích hoạt Shopee tự sinh token
+    // Trả về phản hồi 302 thuần túy từ Server để giữ sạch gói tin bảo mật của trình duyệt
     res.writeHead(302, {
         'Location': link_chuyen_huong_shopee,
         'Cache-Control': 'no-cache, no-store, must-revalidate',
