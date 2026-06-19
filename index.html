@@ -430,7 +430,7 @@
     </div>
 
 <script>
-    const MY_AFFILIATE_ID = "17322830423"; 
+    const MY_AFFILIATE_ID = "17322830423";
     
     let currentCampaign = "pure";
     let linkKetQua = "";
@@ -463,7 +463,6 @@
         const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
-        // 1. Chỉ lấy đường dẫn sản phẩm sạch (Loại bỏ các token/tham số cũ đằng sau dấu hỏi)
         let cleanUrl = inputUrl;
         if(inputUrl.includes('?')) {
             cleanUrl = inputUrl.split('?')[0];
@@ -471,24 +470,26 @@
 
         const voucherBlock = document.getElementById('voucherImageBlock');
         const imgElement = document.getElementById('voucherImgElement');
-
-        // 2. Tự động lấy tên miền hiện tại của anh (Anh up lên web nào nó tự nhận web đó, không cần sửa tay nữa)
         const currentDomain = window.location.origin;
 
-        // 3. Xử lý tạo Link 1 dẫn về file go.php trên Server của anh
+        // 🔥 ĐÃ SỬA: Thay thế toàn bộ "go.php" thành cổng "api/go" để trỏ đúng vào Server Vercel của anh
+        let linkTargetGoc = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_id=${MY_AFFILIATE_ID}`;
+
         if (currentCampaign === 'pure') {
-            // Tab Shopee thường: chuyển sang file go.php với tham số nền tảng tương ứng
-            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=pure`;
+            // Luồng link thường: Cho chạy trực tiếp qua API
+            linkKetQua = linkTargetGoc + `&aff_type=pure`;
             imgElement.src = "voucher.jpg";
         } 
         else if (currentCampaign === 'fb') {
-            // Tab Facebook: chuyển sang file go.php báo loại nền tảng facebook
-            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=facebook`;
+            // Luồng Facebook: Mượn đường cổng chuyển hướng của Facebook để tạo "referer" Facebook xịn
+            let linkHoanChinh = linkTargetGoc + `&aff_type=facebook`;
+            linkKetQua = `https://l.facebook.com/l.php?u=${encodeURIComponent(linkHoanChinh)}`;
             imgElement.src = "facebook.jpg";
         }
         else if (currentCampaign === 'ig') {
-            // Tab Instagram: chuyển sang file go.php báo loại nền tảng instagram
-            linkKetQua = `${currentDomain}/go.php?url=${encodeURIComponent(cleanUrl)}&aff_type=instagram`;
+            // Luồng Instagram giống ông Hùng: Mượn đường qua cổng l.instagram.com để găm Referer mạng xã hội xịn
+            let linkHoanChinh = linkTargetGoc + `&aff_type=instagram`;
+            linkKetQua = `https://l.instagram.com/?u=${encodeURIComponent(linkHoanChinh)}`;
             imgElement.src = "instagram.png";
         } 
 
