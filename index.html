@@ -31,7 +31,7 @@
         }
 
         .logo-text {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             color: #ff5722;
             display: flex;
@@ -108,13 +108,13 @@
         }
 
         .input-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             color: #333;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .input-wrapper {
@@ -167,10 +167,103 @@
             justify-content: center;
             gap: 8px;
             transition: background 0.2s;
+            margin-bottom: 16px;
         }
 
         .btn-submit:hover {
             background: #e04818;
+        }
+
+        /* KHỐI KẾT QUẢ MỚI THEO GIAO DIỆN ÔNG HÙNG */
+        .result-container {
+            display: none;
+            background: #f8f9fa;
+            border: 1px solid #eef0f2;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result-status {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .result-status i.fa-circle-check {
+            color: #28a745;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-mua-ngay {
+            background: #00d27a;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,210,122,0.15);
+            transition: background 0.2s;
+        }
+
+        .btn-mua-ngay:hover {
+            background: #00b96b;
+        }
+
+        .btn-copy {
+            background: #ffffff;
+            color: #ff5722;
+            border: 1px solid #ff5722;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: #ff5722;
+            color: #ffffff;
+        }
+
+        .btn-facebook {
+            width: 100%;
+            background: #3b5998;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-facebook:hover {
+            background: #2d4373;
         }
 
         .instruction-box {
@@ -178,7 +271,7 @@
             background: #f0f4f9;
             border-radius: 12px;
             padding: 16px;
-            margin-top: 20px;
+            margin-top: 16px;
         }
 
         .instruction-title {
@@ -271,78 +364,6 @@
             display: block;
         }
 
-        .result-container {
-            display: none;
-            margin-top: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 16px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .action-row {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .btn-mua-ngay {
-            background: #00d27a;
-            color: white;
-            text-decoration: none;
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 6px rgba(0,210,122,0.2);
-        }
-
-        .btn-mua-ngay:hover {
-            background: #00b96b;
-        }
-
-        .btn-copy {
-            background: #ff5722;
-            color: white;
-            border: 1px solid #d43f11;
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .btn-copy:hover {
-            background: #e04818;
-        }
-
-        .btn-facebook {
-            width: 100%;
-            background: #3b5998;
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-facebook:hover {
-            background: #2d4373;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -353,9 +374,9 @@
 
     <div class="logo-area">
         <div class="logo-text">
-            <i class="fa-solid fa-link"></i> Tạo Link Tổng Hợp
+            <i class="fa-solid fa-link"></i> Tạo Link Shopee
         </div>
-        <div class="sub-logo">Ngọc Long Shopee</div>
+        <div class="sub-logo" id="subLogoDomain">ngoclong.shpee</div>
     </div>
 
     <div class="card">
@@ -373,7 +394,7 @@
         </div>
 
         <div class="input-title">
-            <i class="fa-solid fa-briefcase"></i> <span id="inputLabel">Link sản phẩm Shopee làm Affiliate đơn thuần</span>
+            <i class="fa-solid fa-lock"></i> <span id="inputLabel">Link sản phẩm Shopee làm Affiliate đơn thuần</span>
         </div>
         
         <div class="input-wrapper">
@@ -386,6 +407,20 @@
         <button class="btn-submit" onclick="generateMikiLink()">
             <i class="fa-solid fa-pencil"></i> Tạo Link Ngay
         </button>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-status" id="resultStatusText">
+                <i class="fa-solid fa-circle-check"></i> Shopee Thường
+            </div>
+            <div class="action-buttons">
+                <button id="btnCopy" class="btn-copy" onclick="copyTargetLink()">
+                    <i class="fa-solid fa-copy"></i> Copy
+                </button>
+                <a href="#" id="linkMuaNgay" class="btn-mua-ngay" target="_blank">
+                    <i class="fa-solid fa-cart-shopping"></i> Mua Ngay
+                </a>
+            </div>
+        </div>
 
         <div class="instruction-box" id="instructionBlock">
             <div class="instruction-title">
@@ -408,38 +443,35 @@
                 </div>
             </div>
 
+            <button class="btn-facebook" id="btnShareFb" style="display: none;" onclick="shareToFacebook()">
+                <i class="fa-brands fa-facebook"></i> Chia sẻ lên Facebook
+            </button>
+
             <div class="voucher-preview" id="voucherImageBlock">
                 <img id="voucherImgElement" src="" alt="Voucher Campaign">
             </div>
         </div>
-
-        <div class="result-container" id="resultContainer">
-            <div class="action-row">
-                <a href="#" id="linkMuaNgay" class="btn-mua-ngay" target="_blank">
-                    <i class="fa-solid fa-cart-shopping"></i> Mua Ngay
-                </a>
-                <button id="btnCopy" class="btn-copy" onclick="copyTargetLink()">
-                    <i class="fa-solid fa-copy"></i> Sao chép
-                </button>
-            </div>
-
-            <button class="btn-facebook" onclick="shareToFacebook()">
-                <i class="fa-brands fa-facebook"></i> Chia sẻ lên Facebook
-            </button>
-        </div>
     </div>
 
 <script>
-    const MY_AFFILIATE_ID = "17322830423";
+    const MY_AFFILIATE_ID = "17322830423"; 
     
     let currentCampaign = "pure";
     let linkKetQua = "";
+
+    // Tự động cập nhật chữ sub-logo theo domain đang chạy cho giống ông Hùng
+    window.addEventListener('DOMContentLoaded', () => {
+        const host = window.location.hostname;
+        if(host && host !== '127.0.0.1' && host !== 'localhost') {
+            document.getElementById('subLogoDomain').innerText = host;
+        }
+    });
 
     function switchCampaign(type) {
         currentCampaign = type;
         
         document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        document.getElementById("tab-" + type).classList.add('active');
+        document.getElementById(`tab-${type}`).classList.add('active');
         
         const label = document.getElementById('inputLabel');
         if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
@@ -448,6 +480,7 @@
 
         document.getElementById('voucherImageBlock').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'none';
+        document.getElementById('btnShareFb').style.display = 'none';
     }
 
     async function pasteClipboard() {
@@ -470,46 +503,54 @@
 
         const voucherBlock = document.getElementById('voucherImageBlock');
         const imgElement = document.getElementById('voucherImgElement');
+        const statusText = document.getElementById('resultStatusText');
         const currentDomain = window.location.origin;
 
-        // Chuẩn hóa gọi sang API Vercel thuần túy
+        // Xử lý tạo Link đồng bộ về api/go Node.js trên Vercel của anh
         if (currentCampaign === 'pure') {
-            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=pure&aff_id=" + MY_AFFILIATE_ID;
+            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=pure&aff_id=${MY_AFFILIATE_ID}`;
             imgElement.src = "voucher.jpg";
+            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Shopee Thường`;
         } 
         else if (currentCampaign === 'fb') {
-            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=facebook&aff_id=" + MY_AFFILIATE_ID;
+            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=facebook&aff_id=${MY_AFFILIATE_ID}`;
             imgElement.src = "facebook.jpg";
+            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Facebook`;
         }
         else if (currentCampaign === 'ig') {
-            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=instagram&aff_id=" + MY_AFFILIATE_ID;
+            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=instagram&aff_id=${MY_AFFILIATE_ID}`;
             imgElement.src = "instagram.png";
+            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Instagram`;
         } 
 
-        voucherBlock.style.display = 'block';
+        // Hiển thị khối kết quả ngay dưới nút tạo link
+        document.getElementById('resultContainer').style.display = 'flex';
         document.getElementById('linkMuaNgay').href = linkKetQua;
-        document.getElementById('resultContainer').style.display = 'block';
+        
+        // Hiển thị ảnh voucher và nút chia sẻ FB trong khối hướng dẫn
+        voucherBlock.style.display = 'block';
+        document.getElementById('btnShareFb').style.display = 'flex';
     }
 
     function copyTargetLink() {
         if(!linkKetQua) return;
         navigator.clipboard.writeText(linkKetQua).then(() => {
             const btnCopy = document.getElementById('btnCopy');
-            btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép';
-            btnCopy.style.background = "#28a745";
-            btnCopy.style.borderColor = "#1e7e34";
+            btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> Ok`;
+            btnCopy.style.color = "#28a745";
+            btnCopy.style.borderColor = "#28a745";
 
             setTimeout(() => {
-                btnCopy.innerHTML = '<i class="fa-solid fa-copy"></i> Sao chép';
-                btnCopy.style.background = "#ff5722";
-                btnCopy.style.borderColor = "#d43f11";
+                btnCopy.innerHTML = `<i class="fa-solid fa-copy"></i> Copy`;
+                btnCopy.style.color = "#ff5722";
+                btnCopy.style.borderColor = "#ff5722";
             }, 2000);
         });
     }
 
     function shareToFacebook() {
         if(!linkKetQua) return;
-        window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(linkKetQua), '_blank');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
     }
 </script>
 </body>
