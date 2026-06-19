@@ -352,10 +352,14 @@
         }
     });
 
+    // TỐI ƯU THEO ÔNG HÙNG: Ấn paste nhanh là tự động kích hoạt tạo link luôn
     async function pasteClipboard() {
         try {
             const text = await navigator.clipboard.readText();
-            document.getElementById('shopeeUrlInput').value = text;
+            if (text.trim()) {
+                document.getElementById('shopeeUrlInput').value = text.trim();
+                generateMikiLink(); // <-- Tự động gọi hàm tạo link ngay lập tức!
+            }
         } catch (err) {
             alert("Vui lòng cho phép quyền truy cập bộ nhớ tạm nha!");
         }
