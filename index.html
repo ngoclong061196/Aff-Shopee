@@ -439,7 +439,7 @@
         currentCampaign = type;
         
         document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(`tab-${type}`).classList.add('active');
+        document.getElementById("tab-" + type).classList.add('active');
         
         const label = document.getElementById('inputLabel');
         if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
@@ -459,7 +459,7 @@
         }
     }
 
-   function generateMikiLink() {
+    function generateMikiLink() {
         const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
@@ -472,46 +472,17 @@
         const imgElement = document.getElementById('voucherImgElement');
         const currentDomain = window.location.origin;
 
-        // 🔥 SỬA TẠI ĐÂY: Tạo link ngắn gọn trỏ về file api/go chuẩn cấu trúc như ông Hùng
+        // Chuẩn hóa gọi sang API Vercel thuần túy
         if (currentCampaign === 'pure') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=pure&aff_id=${MY_AFFILIATE_ID}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=pure&aff_id=" + MY_AFFILIATE_ID;
             imgElement.src = "voucher.jpg";
         } 
         else if (currentCampaign === 'fb') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=facebook&aff_id=${MY_AFFILIATE_ID}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=facebook&aff_id=" + MY_AFFILIATE_ID;
             imgElement.src = "facebook.jpg";
         }
         else if (currentCampaign === 'ig') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=instagram&aff_id=${MY_AFFILIATE_ID}`;
-            imgElement.src = "instagram.png";
-        } 
-
-        voucherBlock.style.display = 'block';
-        document.getElementById('linkMuaNgay').href = linkKetQua;
-        document.getElementById('resultContainer').style.display = 'block';
-    }
-        const voucherBlock = document.getElementById('voucherImageBlock');
-        const imgElement = document.getElementById('voucherImgElement');
-        const currentDomain = window.location.origin;
-
-        // 🔥 ĐÃ SỬA: Thay thế toàn bộ "go.php" thành cổng "api/go" để trỏ đúng vào Server Vercel của anh
-        let linkTargetGoc = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_id=${MY_AFFILIATE_ID}`;
-
-        if (currentCampaign === 'pure') {
-            // Luồng link thường: Cho chạy trực tiếp qua API
-            linkKetQua = linkTargetGoc + `&aff_type=pure`;
-            imgElement.src = "voucher.jpg";
-        } 
-        else if (currentCampaign === 'fb') {
-            // Luồng Facebook: Mượn đường cổng chuyển hướng của Facebook để tạo "referer" Facebook xịn
-            let linkHoanChinh = linkTargetGoc + `&aff_type=facebook`;
-            linkKetQua = `https://l.facebook.com/l.php?u=${encodeURIComponent(linkHoanChinh)}`;
-            imgElement.src = "facebook.jpg";
-        }
-        else if (currentCampaign === 'ig') {
-            // Luồng Instagram giống ông Hùng: Mượn đường qua cổng l.instagram.com để găm Referer mạng xã hội xịn
-            let linkHoanChinh = linkTargetGoc + `&aff_type=instagram`;
-            linkKetQua = `https://l.instagram.com/?u=${encodeURIComponent(linkHoanChinh)}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=instagram&aff_id=" + MY_AFFILIATE_ID;
             imgElement.src = "instagram.png";
         } 
 
@@ -524,12 +495,12 @@
         if(!linkKetQua) return;
         navigator.clipboard.writeText(linkKetQua).then(() => {
             const btnCopy = document.getElementById('btnCopy');
-            btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> Đã sao chép`;
+            btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép';
             btnCopy.style.background = "#28a745";
             btnCopy.style.borderColor = "#1e7e34";
 
             setTimeout(() => {
-                btnCopy.innerHTML = `<i class="fa-solid fa-copy"></i> Sao chép`;
+                btnCopy.innerHTML = '<i class="fa-solid fa-copy"></i> Sao chép';
                 btnCopy.style.background = "#ff5722";
                 btnCopy.style.borderColor = "#d43f11";
             }, 2000);
@@ -538,7 +509,7 @@
 
     function shareToFacebook() {
         if(!linkKetQua) return;
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
+        window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(linkKetQua), '_blank');
     }
 </script>
 </body>
