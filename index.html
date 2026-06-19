@@ -60,53 +60,6 @@
             padding: 24px;
         }
 
-        .campaign-tabs {
-            display: flex;
-            background: #f1f3f5;
-            padding: 4px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            gap: 4px;
-        }
-
-        .tab-item {
-            flex: 1;
-            text-align: center;
-            padding: 10px 5px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #495057;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .tab-item:hover {
-            background: rgba(255, 87, 34, 0.1);
-            color: #ff5722;
-        }
-
-        .tab-item.active {
-            background: #ff5722;
-            color: white;
-            box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
-        }
-
-        .tab-item.active i {
-            background: white !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: #ff5722 !important;
-            color: #ff5722 !important;
-        }
-
-        .tab-item.active .shopee-svg {
-            fill: white !important;
-        }
-
         .input-title {
             font-size: 14px;
             font-weight: 500;
@@ -174,7 +127,6 @@
             background: #e04818;
         }
 
-        /* KHỐI KẾT QUẢ MỚI THEO GIAO DIỆN ÔNG HÙNG */
         .result-container {
             display: none;
             background: #f8f9fa;
@@ -245,27 +197,6 @@
             color: #ffffff;
         }
 
-        .btn-facebook {
-            width: 100%;
-            background: #3b5998;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .btn-facebook:hover {
-            background: #2d4373;
-        }
-
         .instruction-box {
             display: block; 
             background: #f0f4f9;
@@ -284,10 +215,6 @@
             gap: 6px;
         }
 
-        .instruction-title i {
-            color: #1877F2;
-        }
-
         .instruction-list {
             list-style: none;
             padding-left: 0;
@@ -304,7 +231,6 @@
         .support-section {
             border-top: 1px dashed #cbd5e1;
             padding-top: 12px;
-            margin-bottom: 12px;
         }
 
         .support-title {
@@ -347,23 +273,6 @@
             background: #1877f2;
         }
 
-        .voucher-preview {
-            display: none;
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #ffffff;
-            border: 1px solid #e1e4e8;
-            margin-top: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .voucher-preview img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
@@ -380,21 +289,8 @@
     </div>
 
     <div class="card">
-        <div class="campaign-tabs">
-            <div class="tab-item active" onclick="switchCampaign('pure')" id="tab-pure">
-                <svg class="shopee-svg" viewBox="0 0 24 24" width="16" height="16" style="fill: #EE4D2D; transition: fill 0.2s;"><path d="M22.5 10c-.1-.6-.5-1.1-1.1-1.4l-3.4-1.3c-.3-.1-.6-.2-1-.2H7c-.4 0-.7.1-1 .2L2.6 8.6c-.6.3-1 .8-1.1 1.4L1 14.5c-.1 1.6.8 3.1 2.3 3.7l7.5 3.3c.7.3 1.6.3 2.3 0l7.5-3.3c1.5-.6 2.4-2.1 2.3-3.7L22.5 10zM12 18.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"/></svg>
-                Shopee
-            </div>
-            <div class="tab-item" onclick="switchCampaign('fb')" id="tab-fb">
-                <i class="fa-brands fa-facebook" style="color: #1877F2;"></i> Mã Facebook
-            </div>
-            <div class="tab-item" onclick="switchCampaign('ig')" id="tab-ig">
-                <i class="fa-brands fa-instagram" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i> Mã Instagram
-            </div>
-        </div>
-
         <div class="input-title">
-            <i class="fa-solid fa-lock"></i> <span id="inputLabel">Link sản phẩm Shopee làm Affiliate đơn thuần</span>
+            <i class="fa-solid fa-lock"></i> <span>Link sản phẩm Shopee làm Affiliate</span>
         </div>
         
         <div class="input-wrapper">
@@ -409,8 +305,8 @@
         </button>
 
         <div class="result-container" id="resultContainer">
-            <div class="result-status" id="resultStatusText">
-                <i class="fa-solid fa-circle-check"></i> Shopee Thường
+            <div class="result-status">
+                <i class="fa-solid fa-circle-check"></i> Đã tạo xong link
             </div>
             <div class="action-buttons">
                 <button id="btnCopy" class="btn-copy" onclick="copyTargetLink()">
@@ -422,13 +318,13 @@
             </div>
         </div>
 
-        <div class="instruction-box" id="instructionBlock">
+        <div class="instruction-box">
             <div class="instruction-title">
                 <i class="fa-solid fa-circle-info"></i> Hướng dẫn
             </div>
             <ul class="instruction-list">
                 <li>1. Sau khi tạo link, nhấn <strong>Copy Link</strong> dán vào trình duyệt hoặc nhấn <strong>Mua Ngay</strong>.</li>
-                <li>2. Tại Shopee bấm <strong>MUA HÀNG</strong> là voucher tự có trong ví voucher của bạn.</li>
+                <li>2. Hệ thống tự động chuyển đổi sang link mua hàng Affiliate của bạn.</li>
             </ul>
             
             <div class="support-section">
@@ -442,24 +338,13 @@
                     </a>
                 </div>
             </div>
-
-            <button class="btn-facebook" id="btnShareFb" style="display: none;" onclick="shareToFacebook()">
-                <i class="fa-brands fa-facebook"></i> Chia sẻ lên Facebook
-            </button>
-
-            <div class="voucher-preview" id="voucherImageBlock">
-                <img id="voucherImgElement" src="" alt="Voucher Campaign">
-            </div>
         </div>
     </div>
 
 <script>
     const MY_AFFILIATE_ID = "17322830423"; 
-    
-    let currentCampaign = "pure";
     let linkKetQua = "";
 
-    // Tự động cập nhật chữ sub-logo theo domain đang chạy cho giống ông Hùng
     window.addEventListener('DOMContentLoaded', () => {
         const host = window.location.hostname;
         if(host && host !== '127.0.0.1' && host !== 'localhost') {
@@ -467,28 +352,12 @@
         }
     });
 
-    function switchCampaign(type) {
-        currentCampaign = type;
-        
-        document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(`tab-${type}`).classList.add('active');
-        
-        const label = document.getElementById('inputLabel');
-        if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
-        if(type === 'fb') label.innerText = "Link sản phẩm Shopee cần áp mã FB";
-        if(type === 'ig') label.innerText = "Link sản phẩm Shopee cần áp mã IG";
-
-        document.getElementById('voucherImageBlock').style.display = 'none';
-        document.getElementById('resultContainer').style.display = 'none';
-        document.getElementById('btnShareFb').style.display = 'none';
-    }
-
     async function pasteClipboard() {
         try {
             const text = await navigator.clipboard.readText();
             document.getElementById('shopeeUrlInput').value = text;
         } catch (err) {
-            alert("Vui lòng cho phép quyền truy cập bộ nhớ tạm hoặc tự dán thủ công nha!");
+            alert("Vui lòng cho phép quyền truy cập bộ nhớ tạm nha!");
         }
     }
 
@@ -501,35 +370,11 @@
             cleanUrl = inputUrl.split('?')[0];
         }
 
-        const voucherBlock = document.getElementById('voucherImageBlock');
-        const imgElement = document.getElementById('voucherImgElement');
-        const statusText = document.getElementById('resultStatusText');
         const currentDomain = window.location.origin;
+        linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_id=${MY_AFFILIATE_ID}`;
 
-        // Xử lý tạo Link đồng bộ về api/go Node.js trên Vercel của anh
-        if (currentCampaign === 'pure') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=pure&aff_id=${MY_AFFILIATE_ID}`;
-            imgElement.src = "voucher.jpg";
-            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Shopee Thường`;
-        } 
-        else if (currentCampaign === 'fb') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=facebook&aff_id=${MY_AFFILIATE_ID}`;
-            imgElement.src = "facebook.jpg";
-            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Facebook`;
-        }
-        else if (currentCampaign === 'ig') {
-            linkKetQua = `${currentDomain}/api/go?url=${encodeURIComponent(cleanUrl)}&aff_type=instagram&aff_id=${MY_AFFILIATE_ID}`;
-            imgElement.src = "instagram.png";
-            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Instagram`;
-        } 
-
-        // Hiển thị khối kết quả ngay dưới nút tạo link
         document.getElementById('resultContainer').style.display = 'flex';
         document.getElementById('linkMuaNgay').href = linkKetQua;
-        
-        // Hiển thị ảnh voucher và nút chia sẻ FB trong khối hướng dẫn
-        voucherBlock.style.display = 'block';
-        document.getElementById('btnShareFb').style.display = 'flex';
     }
 
     function copyTargetLink() {
@@ -546,11 +391,6 @@
                 btnCopy.style.borderColor = "#ff5722";
             }, 2000);
         });
-    }
-
-    function shareToFacebook() {
-        if(!linkKetQua) return;
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
     }
 </script>
 </body>
