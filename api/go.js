@@ -1,6 +1,5 @@
 export default function handler(req, res) {
     let url_san_pham = req.query.url || '';
-    const my_affiliate_id = req.query.aff_id || "17322830423"; 
     const aff_type = req.query.aff_type || 'pure';
 
     if (!url_san_pham) {
@@ -11,54 +10,49 @@ export default function handler(req, res) {
         url_san_pham = url_san_pham.split('?')[0];
     }
 
-    // Cổng an_redir tiếp nhận của Shopee
+    // 🔥 ID AFFILIATE CỦA ANH
+    const my_affiliate_id = "17322830423"; 
+
+    // Link cổng redir chính thức của Shopee
     const link_chuyen_huong_shopee = `https://s.shopee.vn/an_redir?origin_link=${encodeURIComponent(url_san_pham)}&affiliate_id=${my_affiliate_id}&sub_id=product----`;
 
-    // Nếu là link Shopee thường, cho đi thẳng không cần đợi
-    if (aff_type === 'pure') {
-        res.writeHead(302, { 'Location': link_chuyen_huong_shopee });
+    if (aff_type !== 'instagram') {
+        res.writeHead(302, { Location: link_chuyen_huong_shopee });
         return res.end();
     }
 
-    // Xác định nguồn Referer giả lập dựa trên tab khách chọn
-    let fakeReferer = 'https://l.instagram.com/';
-    let textLoading = 'Instagram';
-    if (aff_type === 'facebook') {
-        fakeReferer = 'https://l.facebook.com/';
-        textLoading = 'Facebook';
-    }
-
-    // 🔥 TRẢ VỀ TRANG ĐỆM 1 GIÂY GIỐNG ÔNG HÙNG ĐỂ ÉP TRÌNH DUYỆT ĐỔI REFERER
+    // 🔥 LUỒNG TỐI ƯU: Trả về trang đệm tạo Click giả lập ngay trên thiết bị khách
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    return res.status(200).send(`
+    res.status(200).send(`
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Đang xử lý mã giảm giá...</title>
-            <meta name="referrer" content="unsafe-url">
-            <style>
-                body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; background-color: #f8f9fa; color: #555; }
-                .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ff5722; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
-                @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-            </style>
+            <script type="text/shopee-short-url-checked">1</script>
+            <meta name="shopee:version" content="sw-WEBFE-MKP-2026.06.v2-1-1">
+            <meta name="referrer" content="no-referrer">
         </head>
         <body>
-            <div class="loader"></div>
-            <h3>Đang tự động áp mã giảm giá ${textLoading}...</h3>
-            <p>Vui lòng chờ trong giây lát để hệ thống kích hoạt.</p>
+            <div style="text-align: center; margin-top: 50px; font-family: sans-serif; color: #666;">
+                <h3>Đang tự động áp mã giảm giá độc quyền và mở App Shopee...</h3>
+                <p>Vui lòng chờ trong giây lát.</p>
+            </div>
 
             <script>
-                // Ghi đè thuộc tính Referrer của trình duyệt ngay tại trang đệm
-                Object.defineProperty(document, 'referrer', {
-                    get: function() { return "${fakeReferer}"; }
-                });
-
-                // Chờ đúng 1 giây (1000ms) để trình duyệt ăn sâu cấu hình rồi mới văng sang Shopee
+                // Tạo một thẻ chuyển hướng ẩn
+                var anchor = document.createElement('a');
+                anchor.href = "${link_chuyen_huong_shopee}";
+                
+                // Giả lập thuộc tính để lừa trình duyệt đây là cú click trực tiếp từ ứng dụng nền (Direct/In-App)
+                anchor.rel = "noreferrer";
+                
+                document.body.appendChild(anchor);
+                
+                // Kích hoạt cú click ngầm trong 0.01 giây
                 setTimeout(function() {
-                    window.location.replace("${link_chuyen_huong_shopee}");
-                }, 1000);
+                    anchor.click();
+                }, 10);
             </script>
         </body>
         </html>
