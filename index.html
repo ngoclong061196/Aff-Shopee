@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo Link Shopee - Ngọc Long Multi-Campaign</title>
+    <title>Tạo Link Shopee - Ngọc Long Affiliate</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,7 +16,7 @@
         }
 
         body {
-            background-color: #ffbca7; /* Màu nền hồng nhạt giống ảnh mẫu */
+            background-color: #ffbca7;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,7 +25,6 @@
             padding: 20px;
         }
 
-        /* Phần Logo phía trên */
         .logo-area {
             text-align: center;
             margin-bottom: 25px;
@@ -52,7 +51,6 @@
             display: inline-block;
         }
         
-        /* Card chứa nội dung chính */
         .card {
             background: #ffffff;
             width: 100%;
@@ -62,7 +60,6 @@
             padding: 24px;
         }
 
-        /* THANH CHỌN CHIẾN DỊCH (TABS) */
         .campaign-tabs {
             display: flex;
             background: #f1f3f5;
@@ -99,7 +96,6 @@
             box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
         }
 
-        /* Đổi màu icon FontAwesome khi tab active để dễ nhìn trên nền cam */
         .tab-item.active i {
             background: white !important;
             -webkit-background-clip: text !important;
@@ -107,7 +103,6 @@
             color: #ff5722 !important;
         }
 
-        /* CSS riêng để xử lý đổi màu Logo Shopee dạng SVG khi active */
         .tab-item.active .shopee-svg {
             fill: white !important;
         }
@@ -122,7 +117,6 @@
             gap: 8px;
         }
         
-        /* Ô nhập liệu có nút Paste bên trong */
         .input-wrapper {
             position: relative;
             display: flex;
@@ -158,7 +152,6 @@
             color: #ff5722;
         }
         
-        /* Nút Tạo Link Ngay màu cam */
         .btn-submit {
             width: 100%;
             background: #ff5722;
@@ -174,33 +167,110 @@
             justify-content: center;
             gap: 8px;
             transition: background 0.2s;
-            margin-bottom: 16px;
         }
 
         .btn-submit:hover {
             background: #e04818;
         }
 
-        /* Vùng hiển thị ảnh Voucher trực quan */
+        .instruction-box {
+            display: block; 
+            background: #f0f4f9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .instruction-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .instruction-title i {
+            color: #1877F2;
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 16px;
+        }
+
+        .instruction-list li {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .support-section {
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .support-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .support-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-contact {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.1s, opacity 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-contact:active {
+            transform: scale(0.97);
+        }
+
+        .btn-zalo {
+            background: #0068ff;
+        }
+
+        .btn-fb-contact {
+            background: #1877f2;
+        }
+
         .voucher-preview {
-            display: none; /* Mặc định ẩn, chỉ hiện ở tab IG */
+            display: none;
             width: 100%;
-            margin-top: 10px;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px dashed #ff5722;
-            padding: 4px;
-            background: #fff5f2;
+            background: #ffffff;
+            border: 1px solid #e1e4e8;
+            margin-top: 12px;
+            animation: fadeIn 0.3s ease;
         }
 
         .voucher-preview img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 6px;
         }
 
-        /* Khối hiển thị kết quả bo viền xám giống ảnh */
         .result-container {
             display: none;
             margin-top: 20px;
@@ -210,7 +280,6 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* Hàng chứa các nút chức năng chính */
         .action-row {
             display: flex;
             justify-content: flex-end;
@@ -218,7 +287,6 @@
             margin-bottom: 16px;
         }
 
-        /* Nút Mua Ngay màu xanh lá */
         .btn-mua-ngay {
             background: #00d27a;
             color: white;
@@ -237,7 +305,6 @@
             background: #00b96b;
         }
 
-        /* Nút Sao chép màu cam viền đen nhẹ */
         .btn-copy {
             background: #ff5722;
             color: white;
@@ -256,7 +323,6 @@
             background: #e04818;
         }
 
-        /* Nút chia sẻ lên Facebook */
         .btn-facebook {
             width: 100%;
             background: #3b5998;
@@ -289,14 +355,14 @@
         <div class="logo-text">
             <i class="fa-solid fa-link"></i> Tạo Link Tổng Hợp
         </div>
-        <div class="sub-logo">Ngọc Long Miki</div>
+        <div class="sub-logo">Ngọc Long Shopee</div>
     </div>
 
     <div class="card">
         <div class="campaign-tabs">
             <div class="tab-item active" onclick="switchCampaign('pure')" id="tab-pure">
                 <svg class="shopee-svg" viewBox="0 0 24 24" width="16" height="16" style="fill: #EE4D2D; transition: fill 0.2s;"><path d="M22.5 10c-.1-.6-.5-1.1-1.1-1.4l-3.4-1.3c-.3-.1-.6-.2-1-.2H7c-.4 0-.7.1-1 .2L2.6 8.6c-.6.3-1 .8-1.1 1.4L1 14.5c-.1 1.6.8 3.1 2.3 3.7l7.5 3.3c.7.3 1.6.3 2.3 0l7.5-3.3c1.5-.6 2.4-2.1 2.3-3.7L22.5 10zM12 18.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z"/></svg>
-                AFF Đơn Thuần
+                Shopee
             </div>
             <div class="tab-item" onclick="switchCampaign('fb')" id="tab-fb">
                 <i class="fa-brands fa-facebook" style="color: #1877F2;"></i> Mã Facebook
@@ -321,9 +387,30 @@
             <i class="fa-solid fa-pencil"></i> Tạo Link Ngay
         </button>
 
-        <!-- KHỐI HIỂN THỊ HÌNH ẢNH VOUCHER THỰC TẾ -->
-        <div class="voucher-preview" id="voucherImageBlock">
-            <img src="instagram.png" alt="Mã giảm giá Instagram">
+        <div class="instruction-box" id="instructionBlock">
+            <div class="instruction-title">
+                <i class="fa-solid fa-circle-info"></i> Hướng dẫn
+            </div>
+            <ul class="instruction-list">
+                <li>1. Sau khi tạo link, nhấn <strong>Copy Link</strong> dán vào trình duyệt hoặc nhấn <strong>Mua Ngay</strong>.</li>
+                <li>2. Tại Shopee bấm <strong>MUA HÀNG</strong> là voucher tự có trong ví voucher của bạn.</li>
+            </ul>
+            
+            <div class="support-section">
+                <div class="support-title">Hỗ Trợ:</div>
+                <div class="support-buttons">
+                    <a href="https://zalo.me/0354271372" class="btn-contact btn-zalo" target="_blank">
+                        <i class="fa-solid fa-comment-dots" style="font-size: 16px;"></i> Zalo
+                    </a>
+                    <a href="https://web.facebook.com/share/1BPAvowpu6/?mibextid=wwXIfr&_rdc=1&_rdr" class="btn-contact btn-fb-contact" target="_blank">
+                        <i class="fa-brands fa-facebook" style="font-size: 16px;"></i> Facebook
+                    </a>
+                </div>
+            </div>
+
+            <div class="voucher-preview" id="voucherImageBlock">
+                <img id="voucherImgElement" src="" alt="Voucher Campaign">
+            </div>
         </div>
 
         <div class="result-container" id="resultContainer">
@@ -343,7 +430,7 @@
     </div>
 
 <script>
-    const MY_AFFILIATE_ID = "17322830423"; 
+    const MY_AFFILIATE_ID = "17322830423";
     
     let currentCampaign = "pure";
     let linkKetQua = "";
@@ -352,24 +439,14 @@
         currentCampaign = type;
         
         document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(`tab-${type}`).classList.add('active');
+        document.getElementById("tab-" + type).classList.add('active');
         
         const label = document.getElementById('inputLabel');
-        const voucherBlock = document.getElementById('voucherImageBlock');
+        if(type === 'pure') label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
+        if(type === 'fb') label.innerText = "Link sản phẩm Shopee cần áp mã FB";
+        if(type === 'ig') label.innerText = "Link sản phẩm Shopee cần áp mã IG";
 
-        if(type === 'pure') {
-            label.innerText = "Link sản phẩm Shopee làm Affiliate đơn thuần";
-            voucherBlock.style.display = 'none';
-        }
-        if(type === 'fb') {
-            label.innerText = "Link sản phẩm Shopee cần áp mã FB";
-            voucherBlock.style.display = 'none';
-        }
-        if(type === 'ig') {
-            label.innerText = "Link sản phẩm Shopee cần áp mã IG";
-            voucherBlock.style.display = 'block'; // Hiện ảnh voucher khi chọn tab IG
-        }
-
+        document.getElementById('voucherImageBlock').style.display = 'none';
         document.getElementById('resultContainer').style.display = 'none';
     }
 
@@ -386,21 +463,30 @@
         const inputUrl = document.getElementById('shopeeUrlInput').value.trim();
         if(!inputUrl) return alert("Bạn chưa nhập link sản phẩm Shopee!");
 
-        let cleanUrl = inputUrl.split('?')[0];
+        let cleanUrl = inputUrl;
+        if(inputUrl.includes('?')) {
+            cleanUrl = inputUrl.split('?')[0];
+        }
 
+        const voucherBlock = document.getElementById('voucherImageBlock');
+        const imgElement = document.getElementById('voucherImgElement');
+        const currentDomain = window.location.origin;
+
+        // Chuẩn hóa gọi sang API Vercel thuần túy
         if (currentCampaign === 'pure') {
-            const encoded = encodeURIComponent(inputUrl);
-            linkKetQua = `https://s.shopee.vn/an_redir?origin_link=${encoded}&affiliate_id=${MY_AFFILIATE_ID}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=pure&aff_id=" + MY_AFFILIATE_ID;
+            imgElement.src = "voucher.jpg";
         } 
         else if (currentCampaign === 'fb') {
-            const facebookToken = "&credential_token=TOKEN_MÃ_FB_SĂN_ĐƯỢC_Ở_ĐÂY&uls_trackid=TRACKID_FB_Ở_ĐÂY";
-            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${facebookToken}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=facebook&aff_id=" + MY_AFFILIATE_ID;
+            imgElement.src = "facebook.jpg";
         }
         else if (currentCampaign === 'ig') {
-            const instagramToken = "&credential_token=8wEwiDL7Z2Us4W7ZvDpoeD6hrmpQqii6GUTr2TpSgu&uls_trackid=55tob7ui00cq";
-            linkKetQua = `${cleanUrl}?utm_source=an_${MY_AFFILIATE_ID}&mmp_pid=an_${MY_AFFILIATE_ID}&utm_medium=affiliates&utm_campaign=-&utm_content=product----${instagramToken}`;
+            linkKetQua = currentDomain + "/api/go?url=" + encodeURIComponent(cleanUrl) + "&aff_type=instagram&aff_id=" + MY_AFFILIATE_ID;
+            imgElement.src = "instagram.png";
         } 
 
+        voucherBlock.style.display = 'block';
         document.getElementById('linkMuaNgay').href = linkKetQua;
         document.getElementById('resultContainer').style.display = 'block';
     }
@@ -409,12 +495,12 @@
         if(!linkKetQua) return;
         navigator.clipboard.writeText(linkKetQua).then(() => {
             const btnCopy = document.getElementById('btnCopy');
-            btnCopy.innerHTML = `<i class="fa-solid fa-check"></i> Đã sao chép`;
+            btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép';
             btnCopy.style.background = "#28a745";
             btnCopy.style.borderColor = "#1e7e34";
 
             setTimeout(() => {
-                btnCopy.innerHTML = `<i class="fa-solid fa-copy"></i> Sao chép`;
+                btnCopy.innerHTML = '<i class="fa-solid fa-copy"></i> Sao chép';
                 btnCopy.style.background = "#ff5722";
                 btnCopy.style.borderColor = "#d43f11";
             }, 2000);
@@ -423,7 +509,7 @@
 
     function shareToFacebook() {
         if(!linkKetQua) return;
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(linkKetQua)}`, '_blank');
+        window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(linkKetQua), '_blank');
     }
 </script>
 </body>
